@@ -1,0 +1,40 @@
+CREATE DATABASE `pharmaprojdb`;
+
+
+CREATE TABLE `batch_info` (
+  `BATCH_CODE` varchar(8) NOT NULL,
+  `MEDICINE_CODE` varchar(8) DEFAULT NULL,
+  `WEIGHT` int DEFAULT NULL,
+  `PRICE` decimal(7,2) DEFAULT NULL,
+  `MEDICINE_TYPE_CODE` char(2) DEFAULT NULL,
+  `SHIPPING_CHARGE` decimal(7,2) DEFAULT NULL,
+  `CARE_LEVEL` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`BATCH_CODE`),
+  KEY `batch_info_ibfk_1_idx` (`MEDICINE_TYPE_CODE`),
+  KEY `batch_info_ibfk_2_idx` (`MEDICINE_CODE`),
+  CONSTRAINT `batch_info_ibfk_1` FOREIGN KEY (`MEDICINE_TYPE_CODE`) REFERENCES `medicine_type_master` (`MEDICINE_TYPE_CODE`),
+  CONSTRAINT `batch_info_ibfk_2` FOREIGN KEY (`MEDICINE_CODE`) REFERENCES `medicine_master` (`MEDICINE_CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+
+CREATE TABLE `medicine_master` (
+  `MEDICINE_CODE` varchar(8) NOT NULL,
+  `MEDICINE_NAME` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`MEDICINE_CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `medicine_type_master` (
+  `MEDICINE_TYPE_CODE` char(2) NOT NULL,
+  `MEDICINE_TYPE_NAME` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`MEDICINE_TYPE_CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `shipping_master` (
+  `MEDICINE_TYPE_CODE` char(2) DEFAULT NULL,
+  `WEIGHT_RANGE` varchar(2) DEFAULT NULL,
+  `SHIPPING_CHARGE` decimal(7,2) DEFAULT NULL,
+  KEY `shipping_master_ibfk_1_idx` (`MEDICINE_TYPE_CODE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
